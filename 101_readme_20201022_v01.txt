@@ -1,4 +1,13 @@
-name: Cincinnati Community Council Neighborhoods
+name: Cincinnati Community Council Neighborhoods*
 short description: Polygon boundary vector data depicting Cincinnati Community Council Neighborhoods as of 20201006
 source: Cincinnati Area Geographic Information System (CAGIS) - cagis.org - /Opendata/
 link where stored: http://cagis.org/Opendata/?
+
+*Shapefiles: Shapefiles contain multiple parts to function. Here is a quick extension key to help you identify the different parts and purposes:
+.shp—The main file that stores the feature geometry; required. 
+.shx—The index file that stores the index of the feature geometry; required. 
+.dbf—The dBASE table that stores the attribute information of features; required. 
+.prj—The file that stores the coordinate system information; required. 
+.sbn and .sbx—The files that store the spatial index of the features and speed up loading times. 
+.xml—Metadata for ArcGIS—stores information about the shapefile. 
+.cpg—An optional file that can be used to specify the codepage for identifying the character set to be used.
