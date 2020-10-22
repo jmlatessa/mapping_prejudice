@@ -1,0 +1,4 @@
+name: Cincinnati Community Council Neighborhoods
+short description: Polygon boundary vector data depicting Cincinnati Community Council Neighborhoods as of 20201006
+source: Cincinnati Area Geographic Information System (CAGIS) - cagis.org - /Opendata/
+link where stored: http://cagis.org/Opendata/?
