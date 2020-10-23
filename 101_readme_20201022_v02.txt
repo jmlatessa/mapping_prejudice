@@ -1,0 +1,26 @@
+Name: Cincinnati_Community_Council_Neighborhoods.json
+Short Description: Polygon boundary vector data depicting Cincinnati Community Council Neighborhoods as of 20201006
+source: Cincinnati Area Geographic Information System (CAGIS) - cagis.org - /Opendata/ - http://cagis.org/Opendata/?
+link where stored: https://mailuc-my.sharepoint.com/personal/koshofae_ucmail_uc_edu/_layouts/15/download.aspx?UniqueId=9f48c398763443609fe21d697d268d13&e=x7mSIg
+
+Name: ohio_hamilton_1970_join_tracts.json
+Short Description: Polygon boundary vector data depicting 1970 spatial tract data, clipped to Hamilton county, and joined with race tabular data for users who have no need to compare historical boundaries with boundaries from 2010 or later, we recommend using the original 2000-based NHGIS boundary files.
+source: Documentation for NHGIS datasets is available here: https://www.nhgis.org/documentation.
+Research using NHGIS data should cite it as:
+Steven Manson, Jonathan Schroeder, David Van Riper, Tracy Kugler, and Steven Ruggles. IPUMS National Historical Geographic Information System: Version 15.0 [dataset]. Minneapolis, MN: IPUMS. 2020. http://doi.org/10.18128/D050.V15.0
+For policy briefs or articles in the popular press, we recommend that you cite the use of NHGIS data as follows:
+IPUMS NHGIS, University of Minnesota, www.nhgis.org
+Research using data on school attendance areas (provided by the SABINS project: http://www.sabinsdata.org/) should cite the data as:
+The College of William and Mary and the Minnesota Population Center. School Attendance Boundary Information System (SABINS): Version 1.0. Minneapolis, MN: University of Minnesota 2011.
+link where stored: https://mailuc-my.sharepoint.com/personal/koshofae_ucmail_uc_edu/_layouts/15/download.aspx?UniqueId=a8cf62cd4e8f49cbba744bf3b0423a92&e=a0gFW3
+
+Name: ohio_hamilton_1970_join_tracts_conflated.json
+Short Description: Polygon boundary vector data depicting 1970 spatial tract data, clipped to Hamilton county, and joined with race tabular data for users who do wish to compare or overlay historical boundaries with boundaries from 2010 or later, we recommend downloading and examining both the 2000- and 2008-based versions of historical boundaries in order to determine which is more suitable for your study area and analysis.
+source: Documentation for NHGIS datasets is available here: https://www.nhgis.org/documentation.
+Research using NHGIS data should cite it as:
+Steven Manson, Jonathan Schroeder, David Van Riper, Tracy Kugler, and Steven Ruggles. IPUMS National Historical Geographic Information System: Version 15.0 [dataset]. Minneapolis, MN: IPUMS. 2020. http://doi.org/10.18128/D050.V15.0
+For policy briefs or articles in the popular press, we recommend that you cite the use of NHGIS data as follows:
+IPUMS NHGIS, University of Minnesota, www.nhgis.org
+Research using data on school attendance areas (provided by the SABINS project: http://www.sabinsdata.org/) should cite the data as:
+The College of William and Mary and the Minnesota Population Center. School Attendance Boundary Information System (SABINS): Version 1.0. Minneapolis, MN: University of Minnesota 2011.
+link where stored: https://mailuc-my.sharepoint.com/personal/koshofae_ucmail_uc_edu/_layouts/15/download.aspx?UniqueId=fb75f3da3b4e477c8c8ff724d223cf09&e=p3sTmf
