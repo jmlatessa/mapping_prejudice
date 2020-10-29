@@ -12,11 +12,33 @@
 			  padding: 20px;
 			  z-index: 1;
 			}
+			#map_control {
+			  font-family: Helvetica, Arial, sans-serif;
+			  position: absolute;
+			  background: #fff;
+			  top: 15vh;
+			  left: 0vw;
+			  margin: 12px;
+			  padding: 20px;
+			  z-index: 1;
+			}
 		</style>
 	</head>
 	<body style="height:100%">
-		<h2 id="title" align="center"><span id="cityname">Cincinnati Neighborhoods</span> <!--Household C02 Footprint-Race 2014 Map--></h2>
+		<h2 id="title" align="center"><span id="cityname">Cincinnati Neighborhoods & 1970 Census</span> <!--Household C02 Footprint-Race 2014 Map--></h2>
 		hi there
+		<div id="map_control">
+			<h3>Toggle Layers</h3>
+			<div>
+			<input type="checkbox" class="form-check-input" id="neighcheck" class="layercheck" checked>
+   			 <label class="form-check-label" for="neighcheck">Neighborhood Layer</label>
+   			</div>
+   			<div>
+   			 <input type="checkbox" class="form-check-input" id="census_1970" class="layercheck" checked>
+   			 <label class="form-check-label" for="census_1970">1970 Census Tracts</label>
+   			</div>
+
+		</div>
 	</body>
 
 <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>

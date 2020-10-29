@@ -13,11 +13,28 @@
 	    'viewz' : 11,
 	    'city_msa_file' : 'zcta_within_msas/cincinnati.csv'
   	}
-	console.log("HI THERE")
+
+  let races_1970 = ['chinese', 'filipino', 'hawaiian', 'indian', 'japanese', 'korean', 'negro', 'white', 'other']
 
 	let featurejson = await d3.json("Cincinnati_Community_Council_Neighborhoods.geojson")
+
+  let censusjson = await d3.json('ohio_hamilton_join_tracts_project.json')
+
+  
+
+ 
 	let neigh_geojson = featurejson
 
+  censusjson = ArcgisToGeojsonUtils.arcgisToGeoJSON(censusjson);
+   censusjson.features.forEach(function(r){
+      r.properties.total_pop = 0
+      races_1970.forEach(function(race){
+        r.properties.total_pop += r.properties[race]
+      })
+  })
+
+  console.log(censusjson)
+  console.log(neigh_geojson)
 
 	let name_points = {
 		type: "FeatureCollection", 
@@ -34,16 +51,70 @@
 
 
 function getTooltip({object}) {
-  return (
-    object && {
-      html: `\
+  let the_html = ``
+  if (object == undefined){
+    return
+  }
+  if (object.properties.NEIGH == undefined){
+    the_html =  `\
+  <div></div>
+   <div>${object.properties.AREANAME}</div>
+   <div>total population:${object.properties.total_pop}</div>
+  <div>white population:${object.properties.white}</div>
+  `
+  }
+  else {
+   the_html =  `\
   <div></div>
   <div>${object.properties.NEIGH}</div>
   `
+  }
+  return (
+    object && {
+      html: the_html
     }
   );
 }
-console.log(neigh_geojson)
+
+let checkobj = {}
+checkobj.neighcheck = true
+checkobj.census_1970 = true
+
+
+const deckInstance = new deck.DeckGL({
+  mapboxApiAccessToken: mapboxAccessToken,
+  mapStyle: 'mapbox://styles/mapbox/light-v9',
+  initialViewState: {
+    latitude: cincinnati.viewloc[0],
+    longitude: cincinnati.viewloc[1],
+    zoom: 11,
+    maxZoom: 16,
+    pitch: 45
+  },
+  controller: true,
+  getTooltip
+});
+
+function hexToRgb(hex) {
+  var result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+  return result ? {
+    r: parseInt(result[1], 16),
+    g: parseInt(result[2], 16),
+    b: parseInt(result[3], 16)
+  } : null;
+}
+
+let colorscale = d3.interpolateGreens
+function colorchooser(val){
+  console.log(val)
+  let proportion = val.properties.white / val.properties.total_pop
+  console.log(proportion)
+  let retcolor = colorscale(proportion)
+  retcolor = retcolor.split("(")[1].split(")")[0].split(",")
+  retcolor = retcolor.map(x => parseInt(x))
+  return retcolor
+}
+function render(){
 const neighborhoodlayer = new deck.GeoJsonLayer({
   data: neigh_geojson,
   opacity: .1,
@@ -56,12 +127,31 @@ const neighborhoodlayer = new deck.GeoJsonLayer({
   getElevation: function(f){
   	return 0
   } ,
-  lineWidthScale: 5,
+  lineWidthScale: 1000,
   getFillColor: f => [255, 255, 255],
   getLineColor: f => [0, 0, 0],
-  pickable: true,
-  
+  //pickable: true,
+  visible: checkobj.neighcheck
 });
+
+const censusTractLayer = new deck.GeoJsonLayer({
+  data : censusjson,
+  opacity: .25,
+  stroked: true,
+  filled: true,
+  extruded: true,
+  wireframe: true,
+  fp64: true,
+
+  getElevation: function(f){
+    return 0
+  } ,
+  lineWidthScale: 100,
+  getFillColor: colorchooser,
+  getLineColor: f => [0, 255, 0],
+  pickable: true,
+  visible: checkobj.census_1970
+})
 
 
 let textData = name_points.features
@@ -70,29 +160,38 @@ const textLayer = new deck.TextLayer({
     data : textData,
     pickable: true,
     getPosition: function(d){
-    	console.log(d)
     	return d.geometry.coordinates
     },
     getText: d => d.properties.NEIGH,
     getSize: 20,
     getAngle: 0,
     getTextAnchor: 'start',
-    getAlignmentBaseline: 'bottom'
+    getAlignmentBaseline: 'bottom',
+    visible: checkobj.neighcheck
 })
-new deck.DeckGL({
-  mapboxApiAccessToken: mapboxAccessToken,
-  mapStyle: 'mapbox://styles/mapbox/light-v9',
-  initialViewState: {
-    latitude: cincinnati.viewloc[0],
-    longitude: cincinnati.viewloc[1],
-    zoom: 11,
-    maxZoom: 16,
-    pitch: 45
-  },
-  controller: true,
-  layers: [neighborhoodlayer, textLayer],
-  getTooltip
-});
+let layers =  [neighborhoodlayer, textLayer, censusTractLayer]
+
+deckInstance.setProps({layers})
+
 }
+//map controller
+function toggler(e){
+  console.log("HI THERE")
+  let this_id = $(this).attr("id")
+  if ($(this).prop("checked") == true){
+    checkobj[this_id] = true
+  }
+  else{
+    checkobj[this_id] = false
+  }
+  render()
+}
+
+$('#neighcheck').on("click", toggler)
+$('#census_1970').on("click", toggler)
+render()
+}//wrapper
+
+
 
 wrapper()
