@@ -20,17 +20,28 @@
 
   let censusjson = await d3.json('ohio_hamilton_join_tracts_project.json')
 
+  let censusjson_2010 = await d3.json('us_ohio_hamilton_tract_2010_project_join.json')
+
   
 
  
 	let neigh_geojson = featurejson
 
   censusjson = ArcgisToGeojsonUtils.arcgisToGeoJSON(censusjson);
-   censusjson.features.forEach(function(r){
+  censusjson_2010 = ArcgisToGeojsonUtils.arcgisToGeoJSON(censusjson_2010);
+
+  censusjson.features.forEach(function(r){
       r.properties.total_pop = 0
       races_1970.forEach(function(race){
         r.properties.total_pop += r.properties[race]
       })
+  })
+
+  censusjson_2010.features.forEach(function(r){
+      console.log()
+      r.properties.total_pop = r.properties.H7X001
+      r.properties.white = r.properties.H7X002
+   
   })
 
   console.log(censusjson)
@@ -79,6 +90,7 @@ function getTooltip({object}) {
 let checkobj = {}
 checkobj.neighcheck = true
 checkobj.census_1970 = true
+checkobj.census_2010 = false
 
 
 const deckInstance = new deck.DeckGL({
@@ -106,72 +118,89 @@ function hexToRgb(hex) {
 
 let colorscale = d3.interpolateGreens
 function colorchooser(val){
-  console.log(val)
   let proportion = val.properties.white / val.properties.total_pop
-  console.log(proportion)
   let retcolor = colorscale(proportion)
   retcolor = retcolor.split("(")[1].split(")")[0].split(",")
   retcolor = retcolor.map(x => parseInt(x))
   return retcolor
 }
 function render(){
-const neighborhoodlayer = new deck.GeoJsonLayer({
-  data: neigh_geojson,
-  opacity: .1,
-  stroked: true,
-  filled: true,
-  extruded: true,
-  wireframe: true,
-  fp64: true,
+  const neighborhoodlayer = new deck.GeoJsonLayer({
+    data: neigh_geojson,
+    opacity: .1,
+    stroked: true,
+    filled: true,
+    extruded: true,
+    wireframe: true,
+    fp64: true,
 
-  getElevation: function(f){
-  	return 0
-  } ,
-  lineWidthScale: 1000,
-  getFillColor: f => [255, 255, 255],
-  getLineColor: f => [0, 0, 0],
-  //pickable: true,
-  visible: checkobj.neighcheck
-});
-
-const censusTractLayer = new deck.GeoJsonLayer({
-  data : censusjson,
-  opacity: .25,
-  stroked: true,
-  filled: true,
-  extruded: true,
-  wireframe: true,
-  fp64: true,
-
-  getElevation: function(f){
-    return 0
-  } ,
-  lineWidthScale: 100,
-  getFillColor: colorchooser,
-  getLineColor: f => [0, 255, 0],
-  pickable: true,
-  visible: checkobj.census_1970
-})
-
-
-let textData = name_points.features
-console.log(textData)
-const textLayer = new deck.TextLayer({
-    data : textData,
-    pickable: true,
-    getPosition: function(d){
-    	return d.geometry.coordinates
-    },
-    getText: d => d.properties.NEIGH,
-    getSize: 20,
-    getAngle: 0,
-    getTextAnchor: 'start',
-    getAlignmentBaseline: 'bottom',
+    getElevation: function(f){
+    	return 0
+    } ,
+    lineWidthScale: 1000,
+    getFillColor: f => [255, 255, 255],
+    getLineColor: f => [0, 0, 0],
+    //pickable: true,
     visible: checkobj.neighcheck
-})
-let layers =  [neighborhoodlayer, textLayer, censusTractLayer]
+  });
 
-deckInstance.setProps({layers})
+  const censusTractLayer = new deck.GeoJsonLayer({
+    data : censusjson,
+    opacity: 1,
+    stroked: true,
+    filled: true,
+    extruded: true,
+    wireframe: true,
+    fp64: true,
+
+    getElevation: function(f){
+      return 0
+    } ,
+    lineWidthScale: 100,
+    getFillColor: colorchooser,
+    getLineColor: f => [0, 255, 0],
+    pickable: true,
+    visible: checkobj.census_1970
+  })
+
+  const censusTractLayer_2010 = new deck.GeoJsonLayer({
+    data : censusjson_2010,
+    opacity: 1,
+    stroked: true,
+    filled: true,
+    extruded: true,
+    wireframe: true,
+    fp64: true,
+
+    getElevation: function(f){
+      return 0
+    } ,
+    lineWidthScale: 100,
+    getFillColor: colorchooser,
+    getLineColor: f => [0, 255, 0],
+    pickable: true,
+    visible: checkobj.census_2010
+  })
+
+
+  let textData = name_points.features
+  console.log(textData)
+  const textLayer = new deck.TextLayer({
+      data : textData,
+      pickable: true,
+      getPosition: function(d){
+      	return d.geometry.coordinates
+      },
+      getText: d => d.properties.NEIGH,
+      getSize: 20,
+      getAngle: 0,
+      getTextAnchor: 'start',
+      getAlignmentBaseline: 'bottom',
+      visible: checkobj.neighcheck
+  })
+  let layers =  [neighborhoodlayer, textLayer, censusTractLayer, censusTractLayer_2010]
+
+  deckInstance.setProps({layers})
 
 }
 //map controller
@@ -189,6 +218,7 @@ function toggler(e){
 
 $('#neighcheck').on("click", toggler)
 $('#census_1970').on("click", toggler)
+$('#census_2010').on("click", toggler)
 render()
 }//wrapper
 
