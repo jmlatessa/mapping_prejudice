@@ -191,6 +191,11 @@ function hexToRgb(hex) {
 
 let colorscale = d3.interpolateGreens
 let colorscale2 = d3.interpolateBlues
+
+d3.select("#ward-legend-high").style("background", colorscale2(1))
+d3.select("#ward-legend-low").style("background", '#d3d3d3')
+d3.select("#census-legend-high").style("background", colorscale(1))
+d3.select("#census-legend-low").style("background", '#d3d3d3')
 function colorchooser(val){
   let proportion = 1 - (val.properties.white / val.properties.total_pop)
   let retcolor = colorscale(proportion)
