@@ -2,8 +2,11 @@
 	<head>
 		<title>Cincinnati Mapping Prejudice</title>
 		<style>
+			body {
+				font-family: Helvetica, Arial, sans-serif;
+			}
 			#title {
-			  font-family: Helvetica, Arial, sans-serif;
+			 
 			  position: absolute;
 			  background: #fff;
 			  top: 1vh;
@@ -13,34 +16,75 @@
 			  z-index: 1;
 			}
 			#map_control {
-			  font-family: Helvetica, Arial, sans-serif;
 			  position: absolute;
 			  background: #fff;
-			  top: 15vh;
+			  top: 5vh;
 			  left: 0vw;
 			  margin: 12px;
 			  padding: 20px;
 			  z-index: 1;
 			}
+
+			#wards_map_control {
+			  position: relative;
+			  background: #fff;
+			  top: 5vh;
+			  left: 0vw;
+			  margin: 12px;
+			  padding: 20px;
+			  z-index: 1;
+			  width : 25%;
+			}
+
 		</style>
 	</head>
-	<body style="height:100%">
-		<h2 id="title" align="center"><span id="cityname">Cincinnati Neighborhoods & 1970 Census</span> <!--Household C02 Footprint-Race 2014 Map--></h2>
-		hi there
-		<div id="map_control">
-			<h3>Toggle Layers</h3>
-			<div>
-			<input type="checkbox" class="form-check-input" id="neighcheck" class="layercheck" checked>
-   			 <label class="form-check-label" for="neighcheck">Neighborhood Layer</label>
-   			</div>
-   			<div>
-   			 <input type="checkbox" class="form-check-input" id="census_1970" class="layercheck" checked>
-   			 <label class="form-check-label" for="census_1970">1970 Census Tracts by Whiteness</label>
-   			</div>
-   			<div>
-   			 <input type="checkbox" class="form-check-input" id="census_2010" class="layercheck" >
-   			 <label class="form-check-label" for="census_1970">2010 Census Tracts by Whiteness</label>
-   			</div>
+	<body >
+		<div class="container-fluid">
+			<div class="row">
+				<div class="col-12">
+					<h2>Cincinnati Neighborhoods & 1970, 2020 Census</h2>
+				</div>
+				<div class="col-12">
+				<div id="census_map">
+					<div id="map_control">
+						<h3>Toggle Layers</h3>
+						<div>
+						<input type="checkbox" class="form-check-input" id="neighcheck" class="layercheck" checked>
+			   			 <label class="form-check-label" for="neighcheck">Neighborhood Layer</label>
+			   			</div>
+			   			<div>
+			   			 <input type="checkbox" class="form-check-input" id="census_1970" class="layercheck" checked>
+			   			 <label class="form-check-label" for="census_1970">1970 Census Tracts by Whiteness</label>
+			   			</div>
+			   			<div>
+			   			 <input type="checkbox" class="form-check-input" id="census_2010" class="layercheck" >
+			   			 <label class="form-check-label" for="census_1970">2010 Census Tracts by Whiteness</label>
+			   			</div>
+		   			</div>
+					</div>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-12">
+					<h2>Map of Cincinnati Wards, 1855</h2>
+				</div>
+				<div class="col-12">
+				<div id="wards_map">
+					<div id="wards_map_control">
+						<h3>Wards Controls</h3>
+						<div>
+							<label for="wards-select">Select wards table:</label>
+							<select id="wards-select" class="select">
+								<option value="table_3_5">Table 3.5 Residential Patterns by Ward, 1860</option>
+								<option value="table_3_4">Table 3.4 Residential Patterns by Ward, 1850</option>
+							</select>
+			   			</div>
+		   			</div>
+					</div>
+				</div>
+			</div>
+
+
 
 		</div>
 	</body>
